@@ -7,9 +7,15 @@ import stationRoutes from "./routes/stations";
 import fareRoutes from "./routes/fare";
 import userRoutes from "./routes/user";
 import mongoose from "mongoose";
+import cors from "cors";
+import helmet from "helmet";
 
 // express app
 const app = express();
+
+app.use(cors());
+
+app.use(helmet());
 
 app.use(express.json());
 
