@@ -4,7 +4,7 @@ interface Station extends Document {
   name: string;
   long: number;
   lat: number;
-  connection: number[];
+  connection: string[];
 }
 
 const stationSchema: Schema = new Schema(
@@ -22,7 +22,7 @@ const stationSchema: Schema = new Schema(
       required: true,
     },
     connection: {
-      type: [Number],
+      type: [String],
       required: true,
     },
   },

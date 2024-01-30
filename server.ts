@@ -3,7 +3,7 @@ dotenv.config();
 
 import express from "express";
 import cardRoutes from "./routes/cards";
-import stationRoutes from "./routes/stations";
+import stnRoutes from "./routes/stn";
 import fareRoutes from "./routes/fare";
 import userRoutes from "./routes/user";
 import mongoose from "mongoose";
@@ -26,7 +26,7 @@ app.use((req, res, next) => {
 
 // routes
 app.use("/api/cards", cardRoutes);
-app.use("/api/stations", stationRoutes);
+app.use("/api/stations", stnRoutes);
 app.use("/api/fare", fareRoutes);
 app.use("/api/users", userRoutes);
 

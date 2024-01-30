@@ -1,4 +1,4 @@
-import Station from "../models/stationModel";
+import Station from "../models/stnModel";
 import { Request, Response } from "express";
 import mongoose, { mongo } from "mongoose";
 
@@ -23,16 +23,53 @@ export const getStation = async (req: Request, res: Response) => {
   res.status(200).json(station);
 };
 
+// export const createStation = async (req: Request, res: Response) => {
+//   const { name, long, lat, connection } = req.body;
+
+//   try {
+//     const station = await Station.create({
+//       name,
+//       long,
+//       lat,
+//       connection,
+//     });
+
+//     res.status(200).json(station);
+//   } catch (error) {
+//     res.status(400).json({ error });
+//   }
+// };
+
 export const createStation = async (req: Request, res: Response) => {
   const { name, long, lat, connection } = req.body;
 
   try {
+    // Create the station
     const station = await Station.create({
       name,
       long,
       lat,
       connection,
     });
+
+    if (connection && connection.length > 0) {
+      await Promise.all(
+        connection.map(async (connectedStationId: string) => {
+          try {
+            const connectedStation = await Station.findById(connectedStationId);
+
+            if (connectedStation) {
+              connectedStation.connection.push(station._id);
+              await connectedStation.save();
+            }
+          } catch (error) {
+            console.error(
+              `Error updating connections for station ${connectedStationId}: ${error}`
+            );
+          }
+        })
+      );
+    }
 
     res.status(200).json(station);
   } catch (error) {
@@ -68,11 +105,25 @@ export const deleteStation = async (req: Request, res: Response) => {
     return res.status(404).json({ error: "Invalid ID input." });
   }
 
-  const station = await Station.findOneAndDelete({ _id: id });
+  try {
+    // Find the station to be deleted
+    const station = await Station.findOne({ _id: id });
 
-  if (!station) {
-    return res.status(404).send({ error: "User not found." });
+    if (!station) {
+      return res.status(404).send({ error: "Station not found." });
+    }
+
+    // Remove the connections to the station from other stations
+    await Station.updateMany(
+      { connection: { $in: [id] } },
+      { $pull: { connection: id } }
+    );
+
+    // Delete the station
+    await Station.deleteOne({ _id: station._id });
+
+    res.status(200).json(station);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error." });
   }
-
-  res.status(200).json(station);
 };
