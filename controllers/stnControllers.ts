@@ -23,23 +23,6 @@ export const getStation = async (req: Request, res: Response) => {
   res.status(200).json(station);
 };
 
-// export const createStation = async (req: Request, res: Response) => {
-//   const { name, long, lat, connection } = req.body;
-
-//   try {
-//     const station = await Station.create({
-//       name,
-//       long,
-//       lat,
-//       connection,
-//     });
-
-//     res.status(200).json(station);
-//   } catch (error) {
-//     res.status(400).json({ error });
-//   }
-// };
-
 export const createStation = async (req: Request, res: Response) => {
   const { name, long, lat, connection } = req.body;
 
@@ -84,18 +67,46 @@ export const updateStation = async (req: Request, res: Response) => {
     return res.status(404).json({ error: "Invalid ID input." });
   }
 
-  const station = await Station.findOneAndUpdate(
-    { _id: id },
-    {
-      ...req.body,
+  const { connections, ...updatedData } = req.body;
+
+  try {
+    const station = await Station.findById(id);
+
+    if (!station) {
+      return res.status(404).json({ error: "Station does not exist." });
     }
-  );
 
-  if (!station) {
-    return res.status(404).json({ error: "Station does not exist." });
+    // Remove this station from connections of other stations
+    const stationsToUpdate = await Station.find({
+      _id: { $in: station.connection },
+    });
+
+    for (const connectedStation of stationsToUpdate) {
+      connectedStation.connection = connectedStation.connection.filter(
+        (conn) => conn !== id
+      );
+      await connectedStation.save();
+    }
+
+    // Update the station with new data
+    station.set(updatedData);
+    await station.save();
+
+    // Update connections for the updated station
+    const stationsToUpdateUpdated = await Station.find({
+      _id: { $in: station.connection },
+    });
+
+    for (const connectedStation of stationsToUpdateUpdated) {
+      connectedStation.connection.push(station._id);
+      await connectedStation.save();
+    }
+
+    res.status(200).json(station);
+  } catch (error) {
+    console.error("Error updating station:", error);
+    res.status(500).json({ error: "Internal server error." });
   }
-
-  res.status(200).json(station);
 };
 
 export const deleteStation = async (req: Request, res: Response) => {
