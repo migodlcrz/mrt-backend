@@ -12,6 +12,7 @@ const stationSchema: Schema = new Schema(
     name: {
       type: String,
       required: true,
+      unique: true,
     },
     long: {
       type: Number,

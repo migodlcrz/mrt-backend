@@ -15,7 +15,7 @@ stn.get("/tap", getStations);
 
 stn.get("/tap/:id", getStation);
 
-stn.get("/", requireAuth, getStations);
+stn.get("/", getStations);
 
 stn.get("/:id", requireAuth, getStation);
 
