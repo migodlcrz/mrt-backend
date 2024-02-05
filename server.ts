@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import express from "express";
-import cardRoutes from "./routes/cards";
+import crdRoutes from "./routes/crd";
 import stnRoutes from "./routes/stn";
 import fareRoutes from "./routes/fare";
 import userRoutes from "./routes/user";
@@ -25,7 +25,7 @@ app.use((req, res, next) => {
 });
 
 // routes
-app.use("/api/cards", cardRoutes);
+app.use("/api/cards", crdRoutes);
 app.use("/api/stations", stnRoutes);
 app.use("/api/fare", fareRoutes);
 app.use("/api/users", userRoutes);

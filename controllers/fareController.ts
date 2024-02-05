@@ -45,12 +45,7 @@ export const updateFare = async (req: Request, res: Response) => {
     return res.status(404).send("The provided ID was not valid.");
   }
 
-  const fare = await Fare.findOneAndUpdate(
-    { _id: id },
-    {
-      ...req.body,
-    }
-  );
+  const fare = await Fare.findOneAndUpdate({ _id: id }, { ...req.body });
 
   if (!fare) {
     return res.status(404).json({ error: "Fare does not exist." });

@@ -15,6 +15,17 @@ const cardSchema: Schema = new Schema(
       type: Number,
       required: true,
     },
+    isTap: {
+      type: Boolean,
+      default: false,
+      required: true,
+    },
+    in: {
+      type: String,
+    },
+    out: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
