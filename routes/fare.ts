@@ -10,11 +10,9 @@ import requireAuth from "../middleware/requireAuth";
 
 const fare = express.Router();
 
-fare.use(requireAuth);
+fare.get("/", getFares);
 
-fare.get("/", requireAuth, getFares);
-
-fare.get("/:id", requireAuth, getFare);
+fare.get("/:id", getFare);
 
 fare.post("/", requireAuth, createFare);
 

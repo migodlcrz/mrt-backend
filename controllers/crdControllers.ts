@@ -2,7 +2,7 @@ import Card from "../models/crdModel";
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 
-//TAP IN card
+//TAP card
 export const tapIn = async (req: Request, res: Response) => {
   const { id } = req.params;
 
