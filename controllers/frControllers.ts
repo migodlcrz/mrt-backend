@@ -1,8 +1,9 @@
-import Fare from "../models/fareModel";
+import Fare from "../models/frModel";
 import { Request, Response } from "express";
 import mongoose, { mongo } from "mongoose";
 
 export const getFares = async (req: Request, res: Response) => {
+  console.log("GET FARES");
   const fare = await Fare.find({}).sort({ createdAt: -1 });
   res.status(200).json(fare);
 };
@@ -27,11 +28,7 @@ export const createFare = async (req: Request, res: Response) => {
   const { minimumAmount, perKM } = req.body;
 
   try {
-    const fare = await Fare.create({
-      minimumAmount,
-      perKM,
-    });
-
+    const fare = await Fare.create({ minimumAmount, perKM });
     res.status(200).json(fare);
   } catch (error) {
     res.status(400).json({ error });

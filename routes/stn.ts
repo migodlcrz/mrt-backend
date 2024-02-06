@@ -19,8 +19,6 @@ stn.get("/", getStations);
 
 stn.get("/:id", getStation);
 
-stn.use(requireAuth);
-
 stn.post("/", requireAuth, createStation);
 
 stn.delete("/:id", requireAuth, deleteStation);

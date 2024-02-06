@@ -4,7 +4,7 @@ dotenv.config();
 import express from "express";
 import crdRoutes from "./routes/crd";
 import stnRoutes from "./routes/stn";
-import fareRoutes from "./routes/fare";
+import frRoutes from "./routes/fr";
 import userRoutes from "./routes/user";
 import mongoose from "mongoose";
 import cors from "cors";
@@ -27,8 +27,8 @@ app.use((req, res, next) => {
 // routes
 app.use("/api/cards", crdRoutes);
 app.use("/api/stations", stnRoutes);
-app.use("/api/fare", fareRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/fr", frRoutes);
 
 // connect to db
 const mongoUri = process.env.MONGO;

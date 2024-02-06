@@ -19,4 +19,4 @@ const fareSchema: Schema = new Schema(
   { timestamps: true }
 );
 
-export default mongoose.model<Fare>("Fare", fareSchema);
+export default mongoose.model<Fare>("Train Fare", fareSchema);

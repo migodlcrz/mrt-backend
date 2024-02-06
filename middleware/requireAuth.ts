@@ -15,6 +15,8 @@ const requireAuth = async (
 ): Promise<void> => {
   const { authorization } = req.headers;
 
+  console.log("DUMAAN SA MIDDLEWARE");
+
   if (!authorization) {
     res.status(401).json({ error: "Authorization token required" });
     return;
