@@ -28,14 +28,14 @@ export const getCard = async (req: Request, res: Response) => {
 
 //CREATE a card
 export const createCard = async (req: Request, res: Response) => {
-  const { uid, balance, isTap, in: inValue, out: outValue } = req.body;
+  const { uid, balance, isTap, in: inValue, history } = req.body;
 
   try {
     const card = await Card.create({
       uid,
       balance,
       in: inValue,
-      out: outValue,
+      history,
     });
     res.status(200).json(card);
   } catch (error) {
@@ -116,13 +116,27 @@ export const tapOut = async (req: Request, res: Response) => {
     return res.status(404).json({ error: "Card does not exist." });
   }
 
-  const card = await Card.findOneAndUpdate({ _id: id }, { ...req.body });
+  const { balance, history } = req.body;
 
-  if (!card) {
-    return res.status(404).json({ error: "Card does not exist." });
+  try {
+    const updatedCard = await Card.findByIdAndUpdate(
+      id,
+      {
+        $set: { balance },
+        $push: { history },
+      },
+      { new: true } // To return the updated document
+    );
+
+    if (!updatedCard) {
+      return res.status(404).json({ error: "Card does not exist." });
+    }
+
+    res.status(200).json(updatedCard);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
   }
-
-  res.status(200).json(card);
 };
 
 //TAPIN card
