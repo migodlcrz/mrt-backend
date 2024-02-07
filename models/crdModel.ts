@@ -37,7 +37,7 @@ const cardSchema: Schema = new Schema(
         },
         date: {
           type: Date,
-          default: moment().format("YYYY-MM-DD"),
+          default: Date.now,
           required: true,
         },
       },
