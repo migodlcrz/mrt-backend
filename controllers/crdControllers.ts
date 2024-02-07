@@ -2,23 +2,6 @@ import Card from "../models/crdModel";
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 
-//TAP card
-export const tapIn = async (req: Request, res: Response) => {
-  const { id } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Card does not exist." });
-  }
-
-  const card = await Card.findOneAndUpdate({ _id: id }, { ...req.body });
-
-  if (!card) {
-    return res.status(404).json({ error: "Card does not exist." });
-  }
-
-  res.status(200).json(card);
-};
-
 //GET all cards
 export const getCards = async (req: Request, res: Response) => {
   const cards = await Card.find({}).sort({ createdAt: -1 });
@@ -121,6 +104,40 @@ export const addBalance = async (req: Request, res: Response) => {
   card.balance += balance;
 
   await card.save();
+
+  res.status(200).json(card);
+};
+
+//TAPOUT card
+export const tapOut = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: "Card does not exist." });
+  }
+
+  const card = await Card.findOneAndUpdate({ _id: id }, { ...req.body });
+
+  if (!card) {
+    return res.status(404).json({ error: "Card does not exist." });
+  }
+
+  res.status(200).json(card);
+};
+
+//TAPIN card
+export const tapIn = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: "Card does not exist." });
+  }
+
+  const card = await Card.findOneAndUpdate({ _id: id }, { ...req.body });
+
+  if (!card) {
+    return res.status(404).json({ error: "Card does not exist." });
+  }
 
   res.status(200).json(card);
 };

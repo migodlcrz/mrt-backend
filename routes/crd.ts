@@ -6,6 +6,8 @@ import {
   deleteCard,
   updateCard,
   tapIn,
+  tapOut,
+  addBalance,
 } from "../controllers/crdControllers";
 import requireAuth from "../middleware/requireAuth";
 
@@ -21,6 +23,10 @@ crd.delete("/:id", requireAuth, deleteCard);
 
 crd.patch("/:id", requireAuth, updateCard);
 
+crd.patch("/add/:id", addBalance);
+
 crd.patch("/in/:id", tapIn);
+
+crd.patch("/out/:id", tapOut);
 
 export default crd;
