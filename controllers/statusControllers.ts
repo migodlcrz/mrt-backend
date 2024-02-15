@@ -3,6 +3,22 @@ import Status from "../models/statusModel";
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 
+export const getStatus = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: "Card does not exist." });
+  }
+
+  const status = await Status.findById(id);
+
+  if (!status) {
+    return res.status(404).json({ error: "Card does not exist." });
+  }
+
+  res.status(200).json(status);
+};
+
 export const createStatus = async (req: Request, res: Response) => {
   const { isDeployed } = req.body;
 

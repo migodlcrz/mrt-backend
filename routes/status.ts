@@ -1,9 +1,15 @@
 import express from "express";
 
-import { createStatus, updateStatus } from "../controllers/statusControllers";
+import {
+  createStatus,
+  getStatus,
+  updateStatus,
+} from "../controllers/statusControllers";
 import requireAuth from "../middleware/requireAuth";
 
 const status = express.Router();
+
+status.get("/:id", getStatus);
 
 status.post("/", createStatus);
 
