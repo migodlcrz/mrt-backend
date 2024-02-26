@@ -31,15 +31,27 @@ export const createCard = async (req: Request, res: Response) => {
   const { uid, balance, isTap, in: inValue, history } = req.body;
 
   try {
+    // Check if a card with the same uid already exists
+    const existingCard = await Card.findOne({ uid });
+
+    if (existingCard) {
+      // If duplicate uid found, respond with an error
+      return res
+        .status(400)
+        .json({ error: "Card with the same uid already exists." });
+    }
+
+    // If no duplicate uid found, create a new card
     const card = await Card.create({
       uid,
       balance,
       in: inValue,
       history,
     });
+
     res.status(200).json(card);
   } catch (error) {
-    res.status(400).json({ error });
+    res.status(400).json("INTERNAL ERROR");
   }
 };
 
