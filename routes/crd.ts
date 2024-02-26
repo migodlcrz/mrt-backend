@@ -29,4 +29,6 @@ crd.patch("/in/:id", tapIn);
 
 crd.patch("/out/:id", tapOut);
 
+crd.get("/checkToken", requireAuth, getCards);
+
 export default crd;
