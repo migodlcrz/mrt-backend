@@ -29,6 +29,8 @@ export const getCard = async (req: Request, res: Response) => {
 export const getCardsMobile = async (req: Request, res: Response) => {
   const { uid } = req.body;
 
+  console.log(uid);
+
   if (!uid || !Array.isArray(uid) || uid.length === 0) {
     return res
       .status(400)
