@@ -20,11 +20,13 @@ crd.get("/one/:id", getCard);
 
 crd.post("/mobile/get", getCardsMobile);
 
-crd.post("/", requireAuth, createCard);
+// crd.post("/", requireAuth, createCard);
+crd.post("/", createCard);
 
 crd.delete("/:id", requireAuth, deleteCard);
 
-crd.patch("/:id", requireAuth, updateCard);
+// crd.patch("/:id", requireAuth, updateCard);
+crd.patch("/:id", updateCard);
 
 crd.patch("/add/:id", addBalance);
 

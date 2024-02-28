@@ -1,5 +1,4 @@
 import mongoose, { Schema, Document } from "mongoose";
-import moment from "moment";
 
 interface Card extends Document {
   uid: number;
@@ -17,6 +16,11 @@ const cardSchema: Schema = new Schema(
       required: true,
     },
     isTap: {
+      type: Boolean,
+      default: false,
+      required: true,
+    },
+    mounted: {
       type: Boolean,
       default: false,
       required: true,
