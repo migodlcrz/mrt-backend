@@ -23,7 +23,7 @@ crd.post("/mobile/get", getCardsMobile);
 // crd.post("/", requireAuth, createCard);
 crd.post("/", createCard);
 
-crd.delete("/:id", requireAuth, deleteCard);
+crd.delete("/:id", deleteCard);
 
 // crd.patch("/:id", requireAuth, updateCard);
 crd.patch("/:id", updateCard);
