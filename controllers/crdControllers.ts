@@ -26,6 +26,29 @@ export const getCard = async (req: Request, res: Response) => {
   res.status(200).json(card);
 };
 
+export const getCardsMobile = async (req: Request, res: Response) => {
+  const { uid } = req.body;
+
+  if (!uid || !Array.isArray(uid) || uid.length === 0) {
+    return res
+      .status(400)
+      .json({ error: "Invalid or empty uidArray in the request body." });
+  }
+
+  try {
+    const cards = await Card.find({ uid: { $in: uid } });
+
+    if (cards.length === 0) {
+      return res.status(404).json({ error: "No matching cards found." });
+    }
+
+    res.status(200).json(cards);
+  } catch (error) {
+    console.error("Error fetching cards:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 //CREATE a card
 export const createCard = async (req: Request, res: Response) => {
   const { uid, balance, isTap, in: inValue, history } = req.body;

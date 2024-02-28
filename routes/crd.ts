@@ -8,6 +8,7 @@ import {
   tapIn,
   tapOut,
   addBalance,
+  getCardsMobile,
 } from "../controllers/crdControllers";
 import requireAuth from "../middleware/requireAuth";
 
@@ -16,6 +17,8 @@ const crd = express.Router();
 crd.get("/", getCards);
 
 crd.get("/one/:id", getCard);
+
+crd.get("/mobile/get", getCardsMobile);
 
 crd.post("/", requireAuth, createCard);
 
