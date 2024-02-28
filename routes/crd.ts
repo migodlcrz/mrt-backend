@@ -18,7 +18,7 @@ crd.get("/", getCards);
 
 crd.get("/one/:id", getCard);
 
-crd.get("/mobile/get", getCardsMobile);
+crd.post("/mobile/get", getCardsMobile);
 
 crd.post("/", requireAuth, createCard);
 
