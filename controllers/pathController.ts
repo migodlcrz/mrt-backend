@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import Station from "../models/stnModel";
 
 interface Station {
   _id: string;
@@ -9,7 +10,8 @@ interface Station {
 }
 
 export const calculatePath = async (req: Request, res: Response) => {
-  const { startStation, endStation, stations } = req.body;
+  const stations = await Station.find({}).sort({ createdAt: -1 });
+  const { startStation, endStation } = req.body;
 
   const result = findPath(startStation, endStation, stations);
 
@@ -35,9 +37,9 @@ function findPath(
 
   while (queue.length > 0) {
     const { station, path } = queue.shift()!;
-    visited.add(station._id);
+    visited.add(station._id.toString());
 
-    if (station._id === end._id) {
+    if (station._id.toString() === end._id.toString()) {
       return {
         stations: path.concat(station),
         distance: calculatePathDistance(path.concat(station)),
@@ -45,8 +47,10 @@ function findPath(
     }
 
     for (const connectionId of station.connection) {
-      const connection = stations.find((s) => s._id === connectionId);
-      if (connection && !visited.has(connection._id)) {
+      const connection = stations.find(
+        (s) => s._id.toString() === connectionId
+      );
+      if (connection && !visited.has(connection._id.toString())) {
         queue.push({ station: connection, path: path.concat(station) });
       }
     }
