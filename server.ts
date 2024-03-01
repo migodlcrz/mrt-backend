@@ -7,6 +7,7 @@ import stnRoutes from "./routes/stn";
 import frRoutes from "./routes/fr";
 import userRoutes from "./routes/user";
 import statusRoute from "./routes/status";
+import pathRoute from "./routes/path";
 import mongoose from "mongoose";
 import cors from "cors";
 import helmet from "helmet";
@@ -31,6 +32,7 @@ app.use("/api/stations", stnRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/fr", frRoutes);
 app.use("/api/status", statusRoute);
+app.use("/api/path", pathRoute);
 
 // connect to db
 const mongoUri = process.env.MONGO;
