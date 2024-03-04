@@ -3,6 +3,10 @@ import mongoose, { Schema, Document } from "mongoose";
 interface Card extends Document {
   uid: number;
   balance: number;
+  isTap: boolean;
+  mounted: boolean;
+  in: string;
+  history: any[];
 }
 
 const cardSchema: Schema = new Schema(

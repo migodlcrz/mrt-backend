@@ -30,9 +30,9 @@ crd.patch("/:id", updateCard);
 
 crd.patch("/add/:id", addBalance);
 
-crd.patch("/in/:id", tapIn);
+crd.post("/in", tapIn);
 
-crd.patch("/out/:id", tapOut);
+crd.post("/out", tapOut);
 
 crd.get("/checkToken", requireAuth, getCards);
 

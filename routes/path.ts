@@ -3,6 +3,6 @@ import { calculatePath } from "../controllers/pathController";
 
 const path = express.Router();
 
-path.post("/", calculatePath);
+// path.post("/", calculatePath);
 
 export default path;

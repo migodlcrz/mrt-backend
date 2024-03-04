@@ -9,9 +9,27 @@ interface Station {
   connection: string[];
 }
 
-export const calculatePath = async (req: Request, res: Response) => {
+// export const calculatePath = async (req: Request, res: Response) => {
+//   const stations = await Station.find({}).sort({ createdAt: -1 });
+//   const { startStation, endStation } = req.body;
+
+//   const result = findPath(startStation, endStation, stations);
+
+//   if (result) {
+//     const stationNames = result.stations.map((station) => station.name);
+//     const distance = Number((result.distance / 1000).toFixed());
+
+//     return res.json({ path: stationNames, distance });
+//   } else {
+//     return res.status(404).json({ error: "No path found" });
+//   }
+// };
+
+export const calculatePath = async (
+  startStation: Station,
+  endStation: Station
+) => {
   const stations = await Station.find({}).sort({ createdAt: -1 });
-  const { startStation, endStation } = req.body;
 
   const result = findPath(startStation, endStation, stations);
 
@@ -19,9 +37,9 @@ export const calculatePath = async (req: Request, res: Response) => {
     const stationNames = result.stations.map((station) => station.name);
     const distance = Number((result.distance / 1000).toFixed());
 
-    return res.json({ path: stationNames, distance });
+    return { path: stationNames, distance };
   } else {
-    return res.status(404).json({ error: "No path found" });
+    return { error: "No path found" };
   }
 };
 
