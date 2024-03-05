@@ -9,6 +9,7 @@ import {
   tapOut,
   addBalance,
   getCardsMobile,
+  findFromUID,
 } from "../controllers/crdControllers";
 import requireAuth from "../middleware/requireAuth";
 
@@ -35,5 +36,7 @@ crd.post("/in", tapIn);
 crd.post("/out", tapOut);
 
 crd.get("/checkToken", requireAuth, getCards);
+
+crd.post("/findID", findFromUID);
 
 export default crd;

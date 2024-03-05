@@ -392,3 +392,22 @@ export const tapOut = async (req: Request, res: Response) => {
     return res.status(500).json({ error: "Server Error" });
   }
 };
+
+export const findFromUID = async (req: Request, res: Response) => {
+  const { enteredUID } = req.body;
+
+  const cards = await Card.find({ uid: enteredUID });
+
+  if (cards) {
+    console.log(cards);
+    res.status(200).json({ cards });
+  } else {
+    console.log("not found");
+    res.status(400).json({ eror: "NO CARD FOUND" });
+  }
+
+  try {
+  } catch (error) {
+    console.log(error);
+  }
+};
