@@ -1,6 +1,7 @@
 import Card from "../models/crdModel";
 import Fare from "../models/frModel";
 import Station from "../models/stnModel";
+import Status from "../models/statusModel";
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 import { calculatePath } from "./pathController";
@@ -180,17 +181,25 @@ export const addBalance = async (req: Request, res: Response) => {
 
 //TAPIN card
 export const tapIn = async (req: Request, res: Response) => {
-  const { enteredUID, stationStart } = req.body;
-
   try {
+    const { enteredUID, stationStart } = req.body;
+    const id = "65cb78bfe51a352d5ae51dd1";
+
     const cards = await Card.find({}).sort({ createdAt: -1 });
     const stations = await Station.find({}).sort({ createdAt: -1 });
     const fare = await Fare.find({}).sort({ createdAt: -1 });
+    const status = await Status.findById(id);
 
     const matchingCard = cards.find((card) => card.uid === Number(enteredUID));
     const matchingStation = stations.find(
       (station) => station.name === String(stationStart)
     );
+
+    if (status?.isDeployed === false) {
+      return res
+        .status(400)
+        .json({ error: "Cannot tap in. Maintenance mode." });
+    }
 
     if (!matchingCard) {
       console.log("Not matching card");
@@ -246,9 +255,18 @@ export const tapIn = async (req: Request, res: Response) => {
 export const tapOut = async (req: Request, res: Response) => {
   try {
     const { enteredUID, stationEnd } = req.body;
+    const id = "65cb78bfe51a352d5ae51dd1";
+
     const cards = await Card.find({}).sort({ createdAt: -1 });
     const stations = await Station.find({}).sort({ createdAt: -1 });
     const fare = await Fare.find({}).sort({ createdAt: -1 });
+    const status = await Status.findById(id);
+
+    if (!status?.isDeployed) {
+      return res
+        .status(400)
+        .json({ error: "Cannot tap out. Maintenance mode." });
+    }
 
     const matchingCard = cards.find((card) => card.uid === Number(enteredUID));
     const matchingStation = stations.find(

@@ -51,8 +51,6 @@ export const updateStatus = async (req: Request, res: Response) => {
     }
   }
 
-  console.log("PUMASOK SA DEPLOYED");
-
   if (isDeployed === true) {
     const hasStationsWithNoConnection = stations.some(
       (station) => station.connection.length === 0
@@ -63,8 +61,6 @@ export const updateStatus = async (req: Request, res: Response) => {
       });
     }
   }
-
-  console.log("PUMASOK");
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ error: "Invalid ID input." });
