@@ -35,7 +35,8 @@ crd.post("/in", tapIn);
 
 crd.post("/out", tapOut);
 
-crd.get("/checkToken", requireAuth, getCards);
+// crd.get("/checkToken", requireAuth, getCards);
+crd.get("/checkToken", getCards);
 
 crd.post("/findID", findFromUID);
 

@@ -343,6 +343,7 @@ export const tapOut = async (req: Request, res: Response) => {
         distance: result.distance,
         path: result.path,
         totalFare: fare[0].minimumAmount,
+        initialBalance: matchingCard.balance,
         newBalance: matchingCard.balance - fare[0].minimumAmount,
         start: stationStart.name,
         end: stationEnd.name,
