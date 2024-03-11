@@ -11,8 +11,8 @@ const status = express.Router();
 
 status.get("/:id", getStatus);
 
-status.post("/", createStatus);
+status.post("/", requireAuth, createStatus);
 
-status.patch("/:id", updateStatus);
+status.patch("/:id", requireAuth, updateStatus);
 
 export default status;

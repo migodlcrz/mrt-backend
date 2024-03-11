@@ -17,16 +17,11 @@ stn.get("/tap/:id", getStation);
 
 stn.get("/", getStations);
 
-// stn.get("/:id", requireAuth, getStation);
-stn.get("/:id", getStation);
+stn.get("/:id", requireAuth, getStation);
 
-// stn.post("/", requireAuth, createStation);
-stn.post("/", createStation);
+stn.post("/", requireAuth, createStation);
 
-// stn.delete("/:id", requireAuth, deleteStation);
-stn.delete("/:id", deleteStation);
+stn.delete("/:id", requireAuth, deleteStation);
 
-// stn.patch("/:id", requireAuth, updateStation);
-stn.patch("/:id", updateStation);
-
+stn.patch("/:id", requireAuth, updateStation);
 export default stn;
