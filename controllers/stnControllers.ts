@@ -76,7 +76,6 @@ export const updateStation = async (req: Request, res: Response) => {
       return res.status(404).json({ error: "Station does not exist." });
     }
 
-    // Remove this station from connections of other stations
     const stationsToUpdate = await Station.find({
       _id: { $in: station.connection },
     });

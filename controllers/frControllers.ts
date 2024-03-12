@@ -4,6 +4,11 @@ import mongoose, { mongo } from "mongoose";
 
 export const getFares = async (req: Request, res: Response) => {
   const fare = await Fare.find({}).sort({ createdAt: -1 });
+
+  if (!fare) {
+    return res.status(404).json({ msg: "No fares found" });
+  }
+
   res.status(200).json(fare);
 };
 
